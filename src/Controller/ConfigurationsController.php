@@ -11,6 +11,11 @@ use Cake\Event\Event;
  */
 class ConfigurationsController extends AppController
 {
+    /**
+     *
+     * {@inheritDoc}
+     * @see \Cake\Controller\Controller::beforeFilter()
+     */
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
@@ -18,11 +23,20 @@ class ConfigurationsController extends AppController
         $this->Crud->disable(['Delete', 'View']);
     }
 
+    /**
+     * {@inheritDoc}
+     * @see \App\Controller\AppController::isAuthorized()
+     */
     public function isAuthorized($user = null)
     {
         return parent::isAuthorized($user);
     }
 
+    /**
+     * The main index method for configurations
+     *
+     * @return \Cake\Http\Response|null
+     */
     public function index()
     {
         $this->Crud->on('beforePaginate', function (\Cake\Event\Event $event) {

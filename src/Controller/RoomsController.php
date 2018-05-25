@@ -11,6 +11,11 @@ use Cake\Event\Event;
  */
 class RoomsController extends AppController
 {
+    /**
+     *
+     * {@inheritDoc}
+     * @see \Cake\Controller\Controller::beforeFilter()
+     */
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
@@ -18,11 +23,21 @@ class RoomsController extends AppController
         $this->Crud->disable(['View']);
     }
 
+    /**
+     *
+     * {@inheritDoc}
+     * @see \App\Controller\AppController::isAuthorized()
+     */
     public function isAuthorized($user = null)
     {
         return parent::isAuthorized($user);
     }
 
+    /**
+     * Controller action
+     *
+     * @return \Cake\Http\Response|null
+     */
     public function index()
     {
         $this->Crud->on('beforePaginate', function (\Cake\Event\Event $event) {

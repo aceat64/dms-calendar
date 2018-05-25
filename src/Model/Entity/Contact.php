@@ -34,6 +34,11 @@ class Contact extends Entity
         'id' => true,
     ];
 
+    /**
+     * Returns name and email address formatted "Name (Email)"
+     *
+     * @return string Formatted name and email
+     */
     protected function _getContactListLabel()
     {
         return $this->_properties['name'] . ' (' . $this->_properties['email'] . ')';

@@ -64,6 +64,11 @@ class Event extends Entity
         'id' => false,
     ];
 
+    /**
+     * Returns the number of days between Event start and cancellation cutoff
+     *
+     * @return int|NULL Days
+     */
     protected function _getCancellationDays()
     {
         if ($this->event_start && $this->attendee_cancellation) {
@@ -77,11 +82,18 @@ class Event extends Entity
                 $this->attendee_cancellation,
                 'UTC'
             );
+
             return $startTime->diffInDays($cancellationTime);
         }
+
         return null;
     }
 
+    /**
+     * Returns the number of minutes for setup before event
+     *
+     * @return int|NULL Minutes for Setup
+     */
     protected function _getSetupTime()
     {
         if ($this->event_start && $this->booking_start) {
@@ -95,11 +107,18 @@ class Event extends Entity
                 $this->booking_start,
                 'UTC'
             );
+
             return $startTime->diffInMinutes($setupTime);
         }
+
         return null;
     }
 
+    /**
+     * Returns the number of minutes for tear down after event
+     *
+     * @return int|NULL Minutes for Teardown
+     */
     protected function _getTeardownTime()
     {
         if ($this->event_start && $this->booking_end) {
@@ -113,8 +132,10 @@ class Event extends Entity
                 $this->booking_end,
                 'UTC'
             );
+
             return $startTime->diffInMinutes($teardownTime);
         }
+
         return null;
     }
 }

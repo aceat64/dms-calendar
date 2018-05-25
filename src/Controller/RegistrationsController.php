@@ -16,6 +16,11 @@ use Cake\Utility\Security;
  */
 class RegistrationsController extends AppController
 {
+    /**
+     *
+     * {@inheritDoc}
+     * @see \Cake\Controller\Controller::beforeFilter()
+     */
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
@@ -30,9 +35,14 @@ class RegistrationsController extends AppController
         $this->Crud->disable(['Add', 'Edit', 'Index', 'Delete']);
     }
 
+    /**
+     *
+     * {@inheritDoc}
+     * @see \App\Controller\AppController::isAuthorized()
+     */
     public function isAuthorized($user = null)
     {
-        $regId = (int) $this->request->params['pass'][0];
+        $regId = (int)$this->request->params['pass'][0];
 
         if (in_array($this->request->action, ['accept', 'cancel', 'reject', 'view'])) {
             if (isset($user['samaccountname'])) {
@@ -45,7 +55,7 @@ class RegistrationsController extends AppController
                 }
             }
         }
-        
+
         $this->set('isAdmin', parent::inAdminstrativeGroup($user, 'Calendar Admins'));
 
         return $this->Registrations->isOwnedBy($regId, [
@@ -54,6 +64,12 @@ class RegistrationsController extends AppController
         ]) || parent::isAuthorized($user);
     }
 
+    /**
+     * Controller action
+     *
+     * @param int $eventId Event Id
+     * @return \Cake\Http\Response|null
+     */
     public function event($eventId = null)
     {
         if ($this->Auth->user() &&
@@ -94,7 +110,8 @@ class RegistrationsController extends AppController
                 'contain' => 'RequiresPrerequisites'
             ]);
             $this->set('event', $eventInfo);
-            $this->set('continuedDates',
+            $this->set(
+                'continuedDates',
                 $this->Events->find('all')
                     ->select(['class_number', 'event_start', 'event_end'])
                     ->where(['part_of_id' => $this->passedArgs[0]])
@@ -131,7 +148,8 @@ class RegistrationsController extends AppController
                     $nameParts = explode(' ', $event->subject()->entity->name);
                     $firstName = $nameParts[0];
                     $lastName = '';
-                    for ($i = 1; $i < count($nameParts); $i++) {
+                    $partsCount = count($nameParts);
+                    for ($i = 1; $i < $partsCount; $i++) {
                         $lastName .= $nameParts[$i] . ' ';
                     }
 
@@ -234,6 +252,12 @@ class RegistrationsController extends AppController
         return $this->Crud->execute();
     }
 
+    /**
+     * Controller action
+     *
+     * @param int $id Not Used
+     * @return \Cake\Http\Response|null|void
+     */
     public function view($id = null)
     {
         // Manual check in method to allow non-members to edit their data via an edit key
@@ -248,6 +272,12 @@ class RegistrationsController extends AppController
         return $this->Crud->execute();
     }
 
+    /**
+     * Controller action
+     *
+     * @param int $id Not Used
+     * @return \Cake\Http\Response|null|void
+     */
     public function cancel($id = null)
     {
         // Manual check in method to allow non-members to edit their data via an edit key
@@ -308,6 +338,12 @@ class RegistrationsController extends AppController
         return $this->Crud->execute();
     }
 
+    /**
+     * Controller action
+     *
+     * @param int $id Not Used
+     * @return \Cake\Http\Response|null|void
+     */
     public function accept($id = null)
     {
         $this->request->allowMethod(['POST']);
@@ -360,6 +396,12 @@ class RegistrationsController extends AppController
         return $this->Crud->execute();
     }
 
+    /**
+     * Controller action
+     *
+     * @param int $id Not Used
+     * @return \Cake\Http\Response|null|void
+     */
     public function reject($id = null)
     {
         $this->request->allowMethod(['POST']);
@@ -409,6 +451,11 @@ class RegistrationsController extends AppController
         return $this->Crud->execute();
     }
 
+    /**
+     * Configure Braintree payments
+     *
+     * @return void
+     */
     private function __configureBraintree()
     {
         \Braintree_Configuration::environment(Configure::read('Braintree.environment'));

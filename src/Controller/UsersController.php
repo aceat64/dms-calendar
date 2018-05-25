@@ -15,6 +15,11 @@ class UsersController extends AppController
     // Users are sourced from Active Directory. No internal model or database association.
     public $uses = [];
 
+    /**
+     *
+     * {@inheritDoc}
+     * @see \Cake\Controller\Controller::beforeFilter()
+     */
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
@@ -32,6 +37,7 @@ class UsersController extends AppController
     {
         $events = parent::implementedEvents();
         $events['Auth.afterIdentify'] = 'afterIdentify';
+
         return $events;
     }
 

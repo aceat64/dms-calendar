@@ -29,6 +29,16 @@ class RelationalTimeBehavior extends Behavior
         'timezone' => 'UTC'
     ];
 
+    /**
+     * Creates SQL dates defined in config by number of days/minutes using a different field
+     *
+     * Example:
+     *  attendee_cancellation starts off as an integer number of days
+     *  changes attendee_cancellation to sql date by subtracting number of days from event_start
+     *
+     * @param \ArrayObject $data Data object to be modified
+     * @return void
+     */
     public function convertFromOffset(\ArrayObject $data)
     {
         $config = $this->config();
@@ -55,6 +65,14 @@ class RelationalTimeBehavior extends Behavior
         }
     }
 
+    /**
+     * Returns differences in dates defined in config in days or minutes
+     *
+     * @param unknown $date Date in 'm/d/y, g:i A' format
+     * @param unknown $relation Date in 'm/d/y, g:i A' format
+     * @param unknown $field Field Name
+     * @return int|false Number of days or minutes
+     */
     public function convertToOffset($date, $relation, $field)
     {
         $config = $this->config();
@@ -86,6 +104,17 @@ class RelationalTimeBehavior extends Behavior
         return false;
     }
 
+    /**
+     * CakePHP beforeMarshal event handler
+     *
+     * Converts data from offset
+     * @see RelationalTimeBehavior::convertFromOffset
+     *
+     * @param Event $event Event object
+     * @param \ArrayObject $data Data to marshal
+     * @param \ArrayObject $options Options for marshaller
+     * @return void
+     */
     public function beforeMarshal(Event $event, \ArrayObject $data, \ArrayObject $options)
     {
         $this->convertFromOffset($data);

@@ -12,11 +12,21 @@ use Cake\ORM\TableRegistry;
  */
 class ContactsController extends AppController
 {
+    /**
+     *
+     * {@inheritDoc}
+     * @see \Cake\Controller\Controller::beforeFilter()
+     */
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
     }
 
+    /**
+     *
+     * {@inheritDoc}
+     * @see \App\Controller\AppController::isAuthorized()
+     */
     public function isAuthorized($user = null)
     {
         if ($this->request->action == 'view') {
@@ -28,6 +38,11 @@ class ContactsController extends AppController
         return parent::isAuthorized($user);
     }
 
+    /**
+     * Controller action
+     *
+     * @return \Cake\Http\Response|null
+     */
     public function index()
     {
         $this->Crud->on('beforePaginate', function (\Cake\Event\Event $event) {
@@ -42,7 +57,8 @@ class ContactsController extends AppController
     /**
      * View method
      *
-     * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
+     * @param int $id User Id
+     * @return \Cake\Network\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
     public function view($id)

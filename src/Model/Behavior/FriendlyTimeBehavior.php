@@ -18,7 +18,7 @@ class FriendlyTimeBehavior extends Behavior
     ];
 
     /**
-     * convertFrom Format.
+     * Changes fields to timezone as defined in config by 'to_timezone' and into SQL format
      *
      * @param \Cake\ArrayObject $data Data to convert.
      * @return void
@@ -40,7 +40,7 @@ class FriendlyTimeBehavior extends Behavior
     }
 
     /**
-     * convertToFrom Format.
+     * Changes date to timezone as defined in config by 'from_timezone' and into readable format
      *
      * @param \DateTime $date Date object to convert.
      * @return \Time
