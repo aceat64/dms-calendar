@@ -79,11 +79,12 @@
                     </div>
                     <div class="help-block">Files will be listed and available for download on the event page. Private files will only be visible to you and administrators.</div>
                     <?= $this->Form->input('optional_categories._ids', [
-                        'label' => 'Categories',
-                        'multiple' => true,
+                        'label' => 'Category',
                         'options' => $optionalCategories,
-                        'style' => 'height: 160px',
-                        'type' => 'select'
+                        'style' => '',
+                        'type' => 'select',
+                        'required' => 'required',
+                        'empty' => 'Select One'
                     ]) ?>
                 </div>
             </div>

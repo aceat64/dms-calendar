@@ -137,6 +137,11 @@ class RegistrationsController extends AppController
 
                     $eventData = $this->Events->get($event->subject()->entity->event_id);
 
+                    $categories = [];
+                    foreach((array) $event->categories as $category) {
+                        $categories[] = $category->name;
+                    }
+
                     $this->__configureBraintree();
                     $result = \Braintree_Transaction::sale([
                         'amount' => $event->subject()->entity->cost,
@@ -150,7 +155,8 @@ class RegistrationsController extends AppController
                         ],
                         'customFields' => [
                             'event_id' => $event->subject()->entity->event_id,
-                            'event_name' => $eventData->name
+                            'event_name' => $eventData->name,
+                            'category' => implode(',', $categories)
                         ]
                     ]);
 
