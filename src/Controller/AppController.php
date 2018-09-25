@@ -75,6 +75,11 @@ class AppController extends Controller
                 'Crud.Edit',
                 'Crud.View',
                 'Crud.Delete'
+            ],
+            'listeners' => [
+                'Crud.Api',
+                'Crud.ApiPagination',
+                'Crud.ApiQueryLog'
             ]
         ]);
         $this->loadComponent('Flash');
@@ -87,6 +92,8 @@ class AppController extends Controller
         });
 
         $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
+        
+        
     }
 
     /**
