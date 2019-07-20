@@ -1,7 +1,8 @@
 <?php
 use Phinx\Migration\AbstractMigration;
 
-class Initial extends AbstractMigration
+// PSR-1 requires that classes have namespaces, but there is an issue with Phinx/Migrations and namespaces
+class Initial extends AbstractMigration // @codingStandardsIgnoreLine
 {
     public function up()
     {
@@ -565,20 +566,20 @@ class Initial extends AbstractMigration
 
     public function down()
     {
-        $this->dropTable('categories');
-        $this->dropTable('categories_events');
-        $this->dropTable('committees');
-        $this->dropTable('config');
-        $this->dropTable('configurations');
-        $this->dropTable('contacts');
-        $this->dropTable('events');
-        $this->dropTable('events_tools');
-        $this->dropTable('files');
-        $this->dropTable('honoraria');
-        $this->dropTable('prerequisites');
-        $this->dropTable('registrations');
-        $this->dropTable('rooms');
-        $this->dropTable('tools');
-        $this->dropTable('w9s');
+        $this->table('categories')->drop()->save();
+        $this->table('categories_events')->drop()->save();
+        $this->table('committees')->drop()->save();
+        $this->table('config')->drop()->save();
+        $this->table('configurations')->drop()->save();
+        $this->table('contacts')->drop()->save();
+        $this->table('events')->drop()->save();
+        $this->table('events_tools')->drop()->save();
+        $this->table('files')->drop()->save();
+        $this->table('honoraria')->drop()->save();
+        $this->table('prerequisites')->drop()->save();
+        $this->table('registrations')->drop()->save();
+        $this->table('rooms')->drop()->save();
+        $this->table('tools')->drop()->save();
+        $this->table('w9s')->drop()->save();
     }
 }
